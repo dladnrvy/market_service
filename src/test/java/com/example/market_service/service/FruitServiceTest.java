@@ -24,7 +24,7 @@ import static org.mockito.BDDMockito.given;
 class FruitServiceTest {
 
     @InjectMocks
-    private FruitService fruitService;
+    private FruitServiceImpl fruitService;
 
     @Mock
     private FruitRepository fruitRepository;
@@ -50,7 +50,7 @@ class FruitServiceTest {
             given(fruitRepository.findNameAll()).willReturn(fakeFruitList);
 
             // when
-            List<String> findFruitNameList = fruitService.getAllFruitName();
+            List<String> findFruitNameList = fruitService.getProductAllName();
 
             // then
             assertThat(findFruitNameList).isNotEmpty();
@@ -69,7 +69,7 @@ class FruitServiceTest {
             given(fruitRepository.findNameAndPriceByName(NAME)).willReturn(fakeFruitList);
 
             // when
-            List<GetFruitNameAndPriceDto> findFruitNameAndPriceList = fruitService.getFruitNameAndPrice(NAME);
+            List<GetFruitNameAndPriceDto> findFruitNameAndPriceList = fruitService.getProductNameAndPrice(NAME);
 
             // then
             assertThat(findFruitNameAndPriceList).isNotEmpty();
@@ -92,7 +92,7 @@ class FruitServiceTest {
             given(fruitRepository.findNameAll()).willReturn(fakeFruitList);
 
             // when
-            List<String> findFruitNameList = fruitService.getAllFruitName();
+            List<String> findFruitNameList = fruitService.getProductAllName();
 
             // then
             assertThat(findFruitNameList).isEmpty();
@@ -107,7 +107,7 @@ class FruitServiceTest {
             given(fruitRepository.findNameAndPriceByName(NAME)).willReturn(fakeFruitList);
 
             // when
-            List<GetFruitNameAndPriceDto> findFruitNameAndPriceList = fruitService.getFruitNameAndPrice(NAME);
+            List<GetFruitNameAndPriceDto> findFruitNameAndPriceList = fruitService.getProductNameAndPrice(NAME);
 
             // then
             assertThat(findFruitNameAndPriceList).isEmpty();

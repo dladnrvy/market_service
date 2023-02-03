@@ -5,7 +5,7 @@ import com.example.market_service.config.JwtProvider;
 import com.example.market_service.dto.GetFruitNameAndPriceDto;
 import com.example.market_service.dto.basic.BasicResponse;
 import com.example.market_service.dto.basic.RtnCode;
-import com.example.market_service.service.FruitService;
+import com.example.market_service.service.FruitServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/fruit")
 public class FruitController {
 
-    private final FruitService fruitService;
+    private final FruitServiceImpl fruitService;
     private final JwtProvider jwtProvider;
     private Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
     //jwt key
@@ -53,11 +53,11 @@ public class FruitController {
         jwtProvider.parseJwtToken(token, fruitSecretKey);
         if(StringUtils.isEmpty(name)){
             log.info("NAME empty");
-            List<String> fruitNameList = fruitService.getAllFruitName();
+            List<String> fruitNameList = fruitService.getProductAllName();
             rtn.setData(fruitNameList);
         } else {
             log.info("NAME not empty");
-            List<GetFruitNameAndPriceDto> fruitNameAndPriceList = fruitService.getFruitNameAndPrice(name);
+            List<GetFruitNameAndPriceDto> fruitNameAndPriceList = fruitService.getProductNameAndPrice(name);
             if(fruitNameAndPriceList.isEmpty()){
                 rtn.setCode(RtnCode.INVALID_INPUT_VALUE);
                 return ResponseEntity.badRequest().body(rtn);

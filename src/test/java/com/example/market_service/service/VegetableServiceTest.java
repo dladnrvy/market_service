@@ -24,7 +24,7 @@ import static org.mockito.BDDMockito.given;
 class VegetableServiceTest {
 
     @InjectMocks
-    private VegetableService vegetableService;
+    private VegetableServiceImpl vegetableService;
 
     @Mock
     private VegetableRepository vegetableRepository;
@@ -49,7 +49,7 @@ class VegetableServiceTest {
             given(vegetableRepository.findNameAll()).willReturn(fakeVegetableList);
 
             // when
-            List<String> findVegetableNameList = vegetableService.getAllVegetableName();
+            List<String> findVegetableNameList = vegetableService.getProductAllName();
 
             // then
             assertThat(findVegetableNameList).isNotEmpty();
@@ -68,7 +68,7 @@ class VegetableServiceTest {
             given(vegetableRepository.findNameAndPriceByName(NAME)).willReturn(fakeVegetableList);
 
             // when
-            List<GetVegetableNameAndPriceDto> findVegNameAndPriceList = vegetableService.getVegetableNameAndPrice(NAME);
+            List<GetVegetableNameAndPriceDto> findVegNameAndPriceList = vegetableService.getProductNameAndPrice(NAME);
 
             // then
             assertThat(findVegNameAndPriceList).isNotEmpty();
@@ -91,7 +91,7 @@ class VegetableServiceTest {
             given(vegetableRepository.findNameAll()).willReturn(fakeVegetableList);
 
             // when
-            List<String> findVegetableNameList = vegetableService.getAllVegetableName();
+            List<String> findVegetableNameList = vegetableService.getProductAllName();
 
             //then
             assertThat(findVegetableNameList).isEmpty();
@@ -106,7 +106,7 @@ class VegetableServiceTest {
             given(vegetableRepository.findNameAndPriceByName(NAME)).willReturn(fakeVegetableList);
 
             // when
-            List<GetVegetableNameAndPriceDto> findVegNameAndPriceList = vegetableService.getVegetableNameAndPrice(NAME);
+            List<GetVegetableNameAndPriceDto> findVegNameAndPriceList = vegetableService.getProductNameAndPrice(NAME);
 
             // then
             assertThat(findVegNameAndPriceList).isEmpty();

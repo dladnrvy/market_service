@@ -17,22 +17,25 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class FruitService {
+public class FruitServiceImpl implements marketService{
 
     private final FruitRepository fruitRepository;
     private Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
+
     /**
      *  모든 과일 이름 목록 조회
      */
-    public List<String> getAllFruitName() {
+    @Override
+    public List<String> getProductAllName() {
         return fruitRepository.findNameAll();
     }
 
     /**
      *  과일 이름, 가격 조회
      */
-    public List<GetFruitNameAndPriceDto> getFruitNameAndPrice(String name) {
-        return fruitRepository.findNameAndPriceByName(name).stream().map(GetFruitNameAndPriceDto::new).collect(Collectors.toList());
+    @Override
+    public List<GetFruitNameAndPriceDto> getProductNameAndPrice(Object name) {
+        return fruitRepository.findNameAndPriceByName((String) name).stream().map(GetFruitNameAndPriceDto::new).collect(Collectors.toList());
     }
 }

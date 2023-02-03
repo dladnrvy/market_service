@@ -2,12 +2,10 @@ package com.example.market_service.controller;
 
 
 import com.example.market_service.config.JwtProvider;
-import com.example.market_service.dto.GetFruitNameAndPriceDto;
 import com.example.market_service.dto.GetVegetableNameAndPriceDto;
 import com.example.market_service.dto.basic.BasicResponse;
 import com.example.market_service.dto.basic.RtnCode;
-import com.example.market_service.service.FruitService;
-import com.example.market_service.service.VegetableService;
+import com.example.market_service.service.VegetableServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -24,7 +22,7 @@ import java.util.List;
 @RequestMapping("/vegetable")
 public class VegetableController {
 
-    private final VegetableService vegetableService;
+    private final VegetableServiceImpl vegetableService;
     private final JwtProvider jwtProvider;
     private Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
@@ -56,11 +54,11 @@ public class VegetableController {
         jwtProvider.parseJwtToken(token, vegSecretKey);
         if(StringUtils.isEmpty(name)){
             log.info("NAME empty");
-            List<String> vegetableNameList = vegetableService.getAllVegetableName();
+            List<String> vegetableNameList = vegetableService.getProductAllName();
             rtn.setData(vegetableNameList);
         } else {
             log.info("NAME not empty");
-            List<GetVegetableNameAndPriceDto> vegetableNameAndPriceList = vegetableService.getVegetableNameAndPrice(name);
+            List<GetVegetableNameAndPriceDto> vegetableNameAndPriceList = vegetableService.getProductNameAndPrice(name);
             if(vegetableNameAndPriceList.isEmpty()){
                 rtn.setCode(RtnCode.INVALID_INPUT_VALUE);
                 return ResponseEntity.badRequest().body(rtn);

@@ -2,7 +2,6 @@ package com.example.market_service.service;
 
 
 
-import com.example.market_service.dto.GetFruitNameAndPriceDto;
 import com.example.market_service.dto.GetVegetableNameAndPriceDto;
 import com.example.market_service.repository.VegetableRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class VegetableService {
+public class VegetableServiceImpl implements marketService{
 
     private final VegetableRepository vegetableRepository;
     private Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
@@ -26,14 +25,16 @@ public class VegetableService {
     /**
      *  모든 야채 이름 목록 조회
      */
-    public List<String> getAllVegetableName() {
+    @Override
+    public List getProductAllName() {
         return vegetableRepository.findNameAll();
     }
 
     /**
      *  야채 이름, 가격 조회
      */
-    public List<GetVegetableNameAndPriceDto> getVegetableNameAndPrice(String name) {
-        return vegetableRepository.findNameAndPriceByName(name).stream().map(GetVegetableNameAndPriceDto::new).collect(Collectors.toList());
+    @Override
+    public List<GetVegetableNameAndPriceDto> getProductNameAndPrice(Object name) {
+        return vegetableRepository.findNameAndPriceByName((String) name).stream().map(GetVegetableNameAndPriceDto::new).collect(Collectors.toList());
     }
 }
