@@ -69,13 +69,13 @@ class FruitServiceTest {
             given(fruitRepository.findNameAndPriceByName(NAME)).willReturn(fakeFruitList);
 
             // when
-            List<GetFruitNameAndPriceDto> findFruitNameList = fruitService.getFruitNameAndPrice(NAME);
+            List<GetFruitNameAndPriceDto> findFruitNameAndPriceList = fruitService.getFruitNameAndPrice(NAME);
 
             // then
-            assertThat(findFruitNameList).isNotEmpty();
-            assertThat(findFruitNameList.size()).isEqualTo(1);
-            assertEquals(fruitEntity.getName(), findFruitNameList.get(0).getName());
-            assertEquals(fruitEntity.getPrice(), findFruitNameList.get(0).getPrice());
+            assertThat(findFruitNameAndPriceList).isNotEmpty();
+            assertThat(findFruitNameAndPriceList.size()).isEqualTo(1);
+            assertEquals(fruitEntity.getName(), findFruitNameAndPriceList.get(0).getName());
+            assertEquals(fruitEntity.getPrice(), findFruitNameAndPriceList.get(0).getPrice());
         }
 
     }
@@ -107,10 +107,10 @@ class FruitServiceTest {
             given(fruitRepository.findNameAndPriceByName(NAME)).willReturn(fakeFruitList);
 
             // when
-            List<GetFruitNameAndPriceDto> findFruitNameList = fruitService.getFruitNameAndPrice(NAME);
+            List<GetFruitNameAndPriceDto> findFruitNameAndPriceList = fruitService.getFruitNameAndPrice(NAME);
 
             // then
-            assertThat(findFruitNameList).isEmpty();
+            assertThat(findFruitNameAndPriceList).isEmpty();
         }
     }
 }
