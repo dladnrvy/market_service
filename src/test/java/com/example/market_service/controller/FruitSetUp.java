@@ -2,6 +2,7 @@ package com.example.market_service.controller;
 
 import com.example.market_service.config.JwtProvider;
 import com.example.market_service.domain.FruitEntity;
+import com.example.market_service.interceptor.NotAuth;
 import com.example.market_service.repository.FruitRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -57,6 +58,7 @@ class FruitControllerTest {
         @Test
         public void 모든_과일이름_조회() throws Exception {
             // given
+            given(jwtProvider.getJwt()).willReturn("");
             given(jwtProvider.parseJwtToken(anyString(),anyString())).willReturn(true);
             // when
             ResultActions resultActions = mockMvc.perform(get("/fruit/product")
@@ -71,11 +73,15 @@ class FruitControllerTest {
         @Test
         public void 과일_이름_가격_조회() throws Exception {
             // given
+            given(jwtProvider.getJwt()).willReturn("");
+            given(jwtProvider.parseJwtToken(anyString(),anyString())).willReturn(true);
+
             FruitEntity fruitEntity = FruitEntity.builder()
                     .name("테스트과일")
                     .price(1000)
                     .build();
             setUp.saveFruit(fruitEntity);
+
             // when
             ResultActions resultActions = mockMvc.perform(get("/fruit/product")
                     .param("name","테스트과일")
@@ -126,6 +132,7 @@ class FruitControllerTest {
         @Test
         public void 과일_이름_가격_조회_NAME_NULL() throws Exception {
             // given
+            given(jwtProvider.getJwt()).willReturn("");
             given(jwtProvider.parseJwtToken(anyString(),anyString())).willReturn(true);
             // when
             ResultActions resultActions = mockMvc.perform(get("/fruit/product")

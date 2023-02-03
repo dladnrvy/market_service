@@ -75,7 +75,8 @@
                     contentType: "application/json",
                     success: function(result) {
                         if(result.code != "200"){
-                            alert("오류가 발생하였습니다.")
+                            console.log(result);
+                            alert("일시적인 오류가 발생하였습니다.")
                         }else{
                             if(result.data[0].price){
                                 $("#product").append("<p>"+result.data[0].price+"원</p>");

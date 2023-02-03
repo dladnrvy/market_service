@@ -24,6 +24,13 @@ public class ControllerAdvice {
         return rtn;
     }
 
+    @ExceptionHandler(NotFonudTokenException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public BasicResponse NotFonudTokenException(Exception e) {
+        e.printStackTrace();
+        return new BasicResponse("400", "NotFonudTokenException");
+    }
+
     @ExceptionHandler(MissingRequestHeaderException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public BasicResponse MissingRequestHeaderException(Exception e) {

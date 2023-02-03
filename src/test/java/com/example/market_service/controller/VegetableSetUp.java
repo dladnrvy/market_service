@@ -60,6 +60,7 @@ class VegetableControllerTest {
         @Test
         public void 모든_야채이름_조회() throws Exception {
             // given
+            given(jwtProvider.getJwt()).willReturn("");
             given(jwtProvider.parseJwtToken(anyString(),anyString())).willReturn(true);
             // when
             ResultActions resultActions = mockMvc.perform(get("/vegetable/product")
@@ -74,6 +75,7 @@ class VegetableControllerTest {
         @Test
         public void 야채_이름_가격_조회() throws Exception {
             // given
+            given(jwtProvider.getJwt()).willReturn("");
             given(jwtProvider.parseJwtToken(anyString(),anyString())).willReturn(true);
 
             VegetableEntity vegetableEntity = VegetableEntity.builder()
@@ -131,6 +133,7 @@ class VegetableControllerTest {
         @Test
         public void 야채_이름_가격_조회_NAME_NULL() throws Exception {
             // given
+            given(jwtProvider.getJwt()).willReturn("");
             given(jwtProvider.parseJwtToken(anyString(),anyString())).willReturn(true);
             // when
             ResultActions resultActions = mockMvc.perform(get("/vegetable/product")

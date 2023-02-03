@@ -3,16 +3,19 @@ package com.example.market_service.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.util.Date;
 
 @Component
 public class JwtProvider {
-
-    private Date now = new Date();
 
     //토큰 생성
     public String createToken(String jwtSecretKey) {
@@ -40,5 +43,10 @@ public class JwtProvider {
     //토큰 앞 부분('Bearer') 제거//
     private String BearerRemove(String token) {
         return token.substring("Bearer ".length());
+    }
+
+    public String getJwt(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        return request.getHeader("Authorization");
     }
 }
