@@ -2,7 +2,9 @@ package com.example.market_service.controller;
 
 import com.example.market_service.config.JwtProvider;
 import com.example.market_service.domain.FruitEntity;
+import com.example.market_service.domain.VegetableEntity;
 import com.example.market_service.repository.FruitRepository;
+import com.example.market_service.repository.VegetableRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,9 +18,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,26 +30,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class FruitControllerTest {
+class VegetableControllerTest {
 
     private Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     @Autowired
-    private FruitSetUp setUp;
+    private VegetableSetUp setUp;
     @Autowired
     private MockMvc mockMvc;
     @MockBean
     private JwtProvider jwtProvider;
 
-
     @Nested
     @DisplayName("성공케이스")
     class SuccessCase{
         @Test
-        public void 과일가게_토큰_생성() throws Exception{
+        public void 야채가게_토큰_생성() throws Exception{
             // given
             // when
-            ResultActions resultActions = mockMvc.perform(get("/fruit/token"))
+            ResultActions resultActions = mockMvc.perform(get("/vegetable/token"))
                     .andDo(print());
 
             // then
@@ -55,11 +58,11 @@ class FruitControllerTest {
         }
 
         @Test
-        public void 모든_과일이름_조회() throws Exception {
+        public void 모든_야채이름_조회() throws Exception {
             // given
             given(jwtProvider.parseJwtToken(anyString(),anyString())).willReturn(true);
             // when
-            ResultActions resultActions = mockMvc.perform(get("/fruit/product")
+            ResultActions resultActions = mockMvc.perform(get("/vegetable/product")
                             .header("Authorization", "Bearer (accessToken)"))
                     .andDo(print());
 
@@ -69,17 +72,17 @@ class FruitControllerTest {
         }
 
         @Test
-        public void 과일_이름_가격_조회() throws Exception {
+        public void 야채_이름_가격_조회() throws Exception {
             // given
-            FruitEntity fruitEntity = FruitEntity.builder()
-                    .name("테스트과일")
+            VegetableEntity vegetableEntity = VegetableEntity.builder()
+                    .name("테스트야채")
                     .price(1000)
                     .build();
-            setUp.saveFruit(fruitEntity);
+            setUp.saveVegetable(vegetableEntity);
             // when
-            ResultActions resultActions = mockMvc.perform(get("/fruit/product")
-                    .param("name","테스트과일")
-                    .header("Authorization", "Bearer (accessToken)"))
+            ResultActions resultActions = mockMvc.perform(get("/vegetable/product")
+                            .param("name","테스트야채")
+                            .header("Authorization", "Bearer (accessToken)"))
                     .andDo(print());
 
             // then
@@ -95,9 +98,9 @@ class FruitControllerTest {
     class FailCase {
 
         @Test
-        public void 모든_과일이름_조회_TOKEN_NULL() throws Exception {
+        public void 모든_야채이름_조회_TOKEN_NULL() throws Exception {
             // when
-            ResultActions resultActions = mockMvc.perform(get("/fruit/product"))
+            ResultActions resultActions = mockMvc.perform(get("/vegetable/product"))
                     .andDo(print());
 
             // then
@@ -106,11 +109,16 @@ class FruitControllerTest {
         }
 
         @Test
-        public void 과일_이름_가격_조회_TOKEN_NULL() throws Exception {
+        public void 야채_이름_가격_조회_TOKEN_NULL() throws Exception {
             // given
+            VegetableEntity vegetableEntity = VegetableEntity.builder()
+                    .name("테스트야채")
+                    .price(1000)
+                    .build();
+            setUp.saveVegetable(vegetableEntity);
             // when
-            ResultActions resultActions = mockMvc.perform(get("/fruit/product")
-                            .param("name","123"))
+            ResultActions resultActions = mockMvc.perform(get("/vegetable/product")
+                            .param("name","테스트야채"))
                     .andDo(print());
 
             // then
@@ -119,12 +127,12 @@ class FruitControllerTest {
         }
 
         @Test
-        public void 과일_이름_가격_조회_NAME_NULL() throws Exception {
+        public void 야채_이름_가격_조회_NAME_NULL() throws Exception {
             // given
             given(jwtProvider.parseJwtToken(anyString(),anyString())).willReturn(true);
             // when
-            ResultActions resultActions = mockMvc.perform(get("/fruit/product")
-                            .param("name","없는과일")
+            ResultActions resultActions = mockMvc.perform(get("/vegetable/product")
+                            .param("name","없는야채")
                             .header("Authorization", "Bearer (accessToken)"))
                     .andDo(print());
 
@@ -135,13 +143,12 @@ class FruitControllerTest {
     }
 }
 
-
 @Component
-public class FruitSetUp {
+public class VegetableSetUp {
     @Autowired
-    private FruitRepository fruitRepository;
+    private VegetableRepository vegetableRepository;
 
-    public void saveFruit(FruitEntity fruitEntity) {
-        fruitRepository.save(fruitEntity);
+    public void saveVegetable(VegetableEntity vegetableEntity) {
+        vegetableRepository.save(vegetableEntity);
     }
 }
