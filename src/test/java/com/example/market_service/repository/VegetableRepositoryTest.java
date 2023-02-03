@@ -28,14 +28,14 @@ class VegetableRepositoryTest {
     private Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
     private VegetableEntity vegetableEntity;
 
-    private String VEGETABLE = "양파";
+    private String NAME = "양파";
     private Integer PRICE = 1000;
 
     //    초기화
     @BeforeEach
     public void setUp() {
         vegetableEntity = VegetableEntity.builder()
-                .name(VEGETABLE)
+                .name(NAME)
                 .price(PRICE)
                 .build();
     }

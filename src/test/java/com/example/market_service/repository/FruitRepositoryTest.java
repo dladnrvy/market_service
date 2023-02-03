@@ -27,14 +27,14 @@ class FruitRepositoryTest {
     private Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
     private FruitEntity fruitEntity;
 
-    private String FRUIT = "사과";
+    private String NAME = "사과";
     private Integer PRICE = 1000;
 
     //    초기화
     @BeforeEach
     public void setUp() {
         fruitEntity = FruitEntity.builder()
-                .name(FRUIT)
+                .name(NAME)
                 .price(PRICE)
                 .build();
     }

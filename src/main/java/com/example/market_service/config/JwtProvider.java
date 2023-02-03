@@ -13,11 +13,9 @@ import java.util.Date;
 public class JwtProvider {
 
     private Date now = new Date();
-    private static final String JWT_SECRET_KEY = "marketKey";
-    private Date JWT_EXPIRATION = new Date(now.getTime() + Duration.ofDays(1).toMillis()); // 만료기간 1일
 
     //토큰 생성
-    public String createToken() {
+    public String createToken(String jwtSecretKey) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + Duration.ofDays(1).toMillis()); // 만료기간 1일
 
@@ -25,15 +23,15 @@ public class JwtProvider {
                 .setIssuedAt(now) // 발급시간(iat)
                 .setExpiration(expiration) // 만료시간(exp)
                 .setSubject("marketToken") //  토큰 제목(subject)
-                .signWith(SignatureAlgorithm.HS256, JWT_SECRET_KEY) // 알고리즘, 시크릿 키
+                .signWith(SignatureAlgorithm.HS256, jwtSecretKey) // 알고리즘, 시크릿 키
                 .compact();
     }
 
     //토큰의 유효성 체크
-    public Claims parseJwtToken(String token) {
+    public Claims parseJwtToken(String token, String jwtSecretKey) {
         token = BearerRemove(token);
         return Jwts.parser()
-                .setSigningKey(JWT_SECRET_KEY)
+                .setSigningKey(jwtSecretKey)
                 .parseClaimsJws(token)
                 .getBody();
     }
