@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>market</title>
+</head>
+<body>
+
+<div>
+    <button id="fruitToken">과일가게 토큰발급</button>
+    <button id="vegetableToken">야채가게 토큰발급</button>
+</div>
+<div>
+    <form id="marketForm">
+        <select id="productSelect">
+            <option value="fruit">과일</option>
+            <option value="vegetable">야채</option>
+        </select>
+        <input type="text" id="selectName">
+        <button id="submit">조회</button>
+    </form>
+    <div id="product"></div>
+</div>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        //과일가게 토큰 발급
+        $("#fruitToken").click(function (){
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/fruit/token",
+                contentType: "application/json",
+                success: function(result) {
+                    sessionStorage.setItem("jwt-auth-token", result.data);
+                },
+                error: function() {
+                    alert("응답 오류가 발생하였습니다.");
+                }
+            });
+        });
+
+        //야채가게 토큰 발급
+        $("#vegetableToken").click(function (){
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/vegetable/token",
+                contentType: "application/json",
+                success: function(result) {
+                    sessionStorage.setItem("jwt-auth-token", result.data);
+                },
+                error: function() {
+                    alert("응답 오류가 발생하였습니다.");
+                }
+            });
+        });
+
+        //조회
+        $("#submit").click(function (){
+            $("#product p").remove();
+            var selectName = $("#selectName").val();
+            var url = $("#productSelect").val();
+            var uri = "";
+
+            if(selectName != ""){
+                uri = "?name=" + selectName;
+            }
+
+            var token = sessionStorage.getItem("jwt-auth-token");
+
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/"+ url +"/product" + uri,
+                    headers: {'Authorization': "Bearer "+token},
+                    contentType: "application/json",
+                    success: function(result) {
+                        if(result.code != "200"){
+                            alert("오류가 발생하였습니다.")
+                        }else{
+                            if(result.data[0].price){
+                                $("#product").append("<p>"+result.data[0].price+"원</p>");
+                            }else{
+                                for(var key in result.data){
+                                    $("#product").append("<p>"+result.data[key]+"</p>");
+                                }
+                            }
+
+
+                        }
+                    },
+                    error: function(request, status, error) {
+                        alert("오류가 발생했습니다. "+request.responseText);
+                    }
+                });
+                return false;
+        });
+
+    });
+</script>
+</body>
+</html>

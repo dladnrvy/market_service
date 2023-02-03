@@ -108,9 +108,14 @@ class FruitControllerTest {
         @Test
         public void 과일_이름_가격_조회_TOKEN_NULL() throws Exception {
             // given
+            FruitEntity fruitEntity = FruitEntity.builder()
+                    .name("테스트과일")
+                    .price(1000)
+                    .build();
+            setUp.saveFruit(fruitEntity);
             // when
             ResultActions resultActions = mockMvc.perform(get("/fruit/product")
-                            .param("name","123"))
+                            .param("name","테스트과일"))
                     .andDo(print());
 
             // then

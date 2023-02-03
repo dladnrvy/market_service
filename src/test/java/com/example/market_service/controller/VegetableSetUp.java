@@ -74,6 +74,8 @@ class VegetableControllerTest {
         @Test
         public void 야채_이름_가격_조회() throws Exception {
             // given
+            given(jwtProvider.parseJwtToken(anyString(),anyString())).willReturn(true);
+
             VegetableEntity vegetableEntity = VegetableEntity.builder()
                     .name("테스트야채")
                     .price(1000)

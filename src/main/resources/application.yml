@@ -22,6 +22,11 @@ spring:
   sql:
     init:
       mode: always
-
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    prefix: classpath:templates/
+    suffix: .html
+#jwt
 fruit.jwt.password: fruitKey
 vegetable.jwt.password: vegetableKey
