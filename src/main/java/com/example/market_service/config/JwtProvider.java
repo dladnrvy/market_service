@@ -28,12 +28,13 @@ public class JwtProvider {
     }
 
     //토큰의 유효성 체크
-    public Claims parseJwtToken(String token, String jwtSecretKey) {
+    public boolean parseJwtToken(String token, String jwtSecretKey) {
         token = BearerRemove(token);
-        return Jwts.parser()
+        Jwts.parser()
                 .setSigningKey(jwtSecretKey)
                 .parseClaimsJws(token)
                 .getBody();
+        return true;
     }
 
     //토큰 앞 부분('Bearer') 제거//
